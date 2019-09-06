@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%=title%></title>
+    <link rel='stylesheet' href='/css/bootstrap.min.css' />
+    <script
+  src="https://code.jquery.com/jquery-1.12.4.min.js"
+  integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+  crossorigin="anonymous"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+  </head>
+    <body style="padding-top:50px;">
+      <div class="container">
+        <%-include('./header.ejs')%>
+        <div class="row">
+          <div class="col-sm-12 col-md-6 col-lg-3">
+            <div class="card">
+              <div class="card-body">
+                  <h5 class="card-title"><%=session.user.nickname%>님</h5>
+                  <a href="/logout" class="btn btn-primary btn-sm">로그아웃</a>
+              </div> 
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-6 col-lg-9">
+            <div class="card">
+              <div class="card-body">
+                  <h5 class="card-title">게시글 목록</h5>
+                  <a href="/write" class="btn btn-primary">글쓰기</a>
+                  <table class="table table-stripped">
+                    <tr>
+                        <th style="width:100px;">번호</th>
+                        <th>제목</th>
+                        <th style="width:150px">작성일</th>
+                        <th style="width:20%">작성자</th>
+                    </tr>
+                    <% for(const article of articles){ %>
+                    <tr>
+                        <td><%-article.id %></td>
+                        <td><a href="/view/<%-article.id %>"><%-article.title %></a></td>
+                        <td><%-moment(article.createdAt).format('YYYY-MM-DD') %></td>
+                        <td><%-article.user1.nickname %></td>
+                    </tr>
+                    <% } %>
+                  </table>
+              </div> 
+            </div>
+          </div>
+        </div>
+      </div>
+    </body>
+</html>

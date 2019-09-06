@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>로그인 페이지</title>
+    <link rel='stylesheet' href='/css/bootstrap.min.css' />
+    <script
+  src="https://code.jquery.com/jquery-1.12.4.min.js"
+  integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+  crossorigin="anonymous"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+  </head>
+    <body style="padding-top:50px;">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class='col-lg-3 col-md-6 col-sm-12'>
+                    <div class="card">
+                        <div class="card-body" id="login">
+                            <h5 class="card-title">로그인</h5>
+                            <input name="identity" type="text" placeholder="아이디" class="form-control" />
+                            <input name="password" type="password" placeholder="패스워드" class="form-control" />
+                            <a href="#" onclick="login();" class="btn btn-block btn-primary">로그인</a>
+                        </div>
+                    </div>
+                </div>
+                <div class='col-lg-3 col-md-6 col-sm-12'>
+                    <div class="card">
+                        <div class="card-body" id="join">
+                            <h5 class="card-title">회원가입</h5>
+                            <input name="identity" type="text" placeholder="아이디" class="form-control" />
+                            <input name="password" type="password" placeholder="패스워드" class="form-control" />
+                            <input name="nickname" type="text" placeholder="닉네임" class="form-control" />
+                            <a href="#" onclick="join();" class="btn btn-block btn-primary">회원가입</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            function login(){
+                const identity = $("#login").find("input[name=identity]").val();
+                const password = $("#login").find("input[name=password]").val();
+                console.log(identity, password);
+                $.ajax({
+                    url: "/apis/login",
+                    method: "post",
+                    data: {
+                        identity,
+                        password,
+                    },
+                    dataType: "text",
+                    success: (data) => {
+                        window.location.reload();
+                    },
+                    error: (data) => {
+                        swal.fire("실패", "로그인에 실패하셨습니다.", "error");
+                    }
+                })
+            }
+            function join() {
+                const identity = $("#join").find("input[name=identity]").val();
+                const password = $("#join").find("input[name=password]").val();
+                const nickname = $("#join").find("input[name=nickname]").val();
+                console.log(identity);
+                $.ajax({
+                    url: '/apis/join',
+                    method: "post",
+                    data: {
+                        identity,
+                        password,
+                        nickname
+                    },
+                    dataType: 'text',
+                    success: (data) => {
+                        console.log(data);
+                        swal.fire("성공", "회원가입에 성공하였습니다.", "success");
+                        $("#join")
+                        .find("input").val('');
+                    },
+                    error: (data) => {
+                        console.log(data.responseText);
+                        swal.fire("실패", "회원가입에 실패하였습니다.", "error");
+                    }
+                })
+            }
+        </script>
+    </body>
+</html>

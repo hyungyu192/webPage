@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%=title%></title>
+    <link rel='stylesheet' href='/css/bootstrap.min.css' />
+    <script
+  src="https://code.jquery.com/jquery-1.12.4.min.js"
+  integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+  crossorigin="anonymous"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+  </head>
+    <body style="padding-top:50px;">
+      <div class="container">
+        <%-include('./header.ejs')%>
+        <div class="row">
+          <div class="col-sm-12 col-md-6 col-lg-3">
+            <div class="card">
+              <div class="card-body">
+                  <h5 class="card-title"><%=session.user.nickname%>님</h5>
+                  <a href="/logout" class="btn btn-primary btn-sm">로그아웃</a>
+              </div> 
+            </div>
+          </div>
+          <div class="col-sm-12 col-md-6 col-lg-9">
+            <div class="card">
+              <div class="card-body">
+                  <h5 class="card-title">글쓰기</h5>
+                  <form action='/write' method='post'>
+                    <% if (article) { %>
+                        <input type="hidden" name="articleId" value="<%-article.id%>" />
+                    <% } %>
+                    <input name="title" value="<%=(article ? article.title : '')%>" type="text" placeholder="제목" class="form-control" />
+                    <textarea name="contents" placeholder="내용" class="form-control"><%=(article ? article.contents : '')%></textarea>
+                    <input type="submit" value="작성하기" class="btn btn-primary btn-block" />
+                </form>
+              </div> 
+            </div>
+          </div>
+        </div>
+      </div>
+      <% if(message) { %>
+      <script>
+          swal.fire("실패", "<%-message%>", "error");
+      </script>
+      <% } %>
+    </body>
+</html>
